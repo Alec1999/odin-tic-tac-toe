@@ -17,63 +17,60 @@ function newPlayer(name, marker) {
     const player1 = newPlayer("player1", "X");
     const player2 = newPlayer("player2", "O");
 
-    let p1Win = false;
-    let p2Win = false;
+    let currentBoard = gameBoard;
+    let oldBoard = structuredClone(currentBoard);
 
-    // function to control turns
-        // turn starts on p1
-        // turn changed to p2
+    let currentPlayer = player1;
 
-    // when p1 turn, put down p1 marker
-        // if p2 turn, put down p2 marker
-    
-    gameBoard[2][0] = player1.marker;
-    gameBoard[2][1] = player1.marker;
-    gameBoard[2][2] = player2.marker;
+    function changeTurns() {
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        };
+    }
 
-    for (let col = 0; col < 3; col++) {
-        for (let row = 0; row < 3; row++) {
-            if (gameBoard[0][col] === "X") {
-                if (checkVerticalWin(0, col) === true) {
-                    console.log("Winner!");
-                    p1Win = true;
-                    break;
-                }
-            };
+    function checkBoard() {
+        for (let col = 0; col < 3; col++) {
+            for (let row = 0; row < 3; row++) {
+                if (gameBoard[0][col] === "X") {
+                    if (checkVerticalWin(0, col) === true) {
+                        console.log("Winner!");
+                        break;
+                    }
+                };
 
-            if (gameBoard[row][0] === "X") {
-                if (checkHorizontalWin(row, 0) === true) {
-                    console.log("Winner!");
-                    p1Win = true;
-                    break;
-                }
-            };
+                if (gameBoard[row][0] === "X") {
+                    if (checkHorizontalWin(row, 0) === true) {
+                        console.log("Winner!");
+                        break;
+                    }
+                };
 
-            if (gameBoard[1][1] === "X") {
-                if (checkDiagonalWin() === true) {
-                    console.log("Winner!");
-                    p1Win = true;
-                    break;
+                if (gameBoard[1][1] === "X") {
+                    if (checkDiagonalWin() === true) {
+                        console.log("Winner!");
+                        break;
+                    };
                 };
             };
         };
-    };
+
+        if (currentBoard != oldBoard) {
+            oldBoard = structuredClone(currentBoard)
+            changeTurns();
+        };
+    }
 
     function checkVerticalWin(row, col) {
         if (gameBoard[row+1][col] === "X" && gameBoard[row+2][col] === "X") {
             return true;
-        }
-        else {
-            return false;
         };
     }
 
      function checkHorizontalWin(row, col) {
         if (gameBoard[row][col+1] === "X" && gameBoard[row][col+2] === "X") {
             return true;
-        }
-        else {
-            return false;
         };
     }
 
