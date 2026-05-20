@@ -27,9 +27,9 @@ function newPlayer(name, marker) {
     // when p1 turn, put down p1 marker
         // if p2 turn, put down p2 marker
     
-    gameBoard[0][2] = player1.marker;
-    gameBoard[1][2] = player1.marker;
-    gameBoard[2][2] = player1.marker;
+    gameBoard[2][0] = player1.marker;
+    gameBoard[2][1] = player1.marker;
+    gameBoard[2][2] = player2.marker;
 
     for (let col = 0; col < 3; col++) {
         for (let row = 0; row < 3; row++) {
@@ -41,7 +41,13 @@ function newPlayer(name, marker) {
                 }
             };
 
-            // if gameBoard[n][0] contains "X", check horizontal win    
+            if (gameBoard[row][0] === "X") {
+                if (checkHorizontalWin(row, 0) === true) {
+                    console.log("Winner!");
+                    p1Win = true;
+                    break;
+                }
+            };
 
             if (gameBoard[1][1] === "X") {
                 if (checkDiagonalWin() === true) {
@@ -62,8 +68,14 @@ function newPlayer(name, marker) {
         };
     }
 
-    // horizonal win
-        // if gameBoard[n][0+1] and gameBoard[n][0+2] = "X", win
+     function checkHorizontalWin(row, col) {
+        if (gameBoard[row][col+1] === "X" && gameBoard[row][col+2] === "X") {
+            return true;
+        }
+        else {
+            return false;
+        };
+    }
 
     function checkDiagonalWin() {
         if (gameBoard[0][0] === "X" && gameBoard[0+2][0+2] === "X") {
