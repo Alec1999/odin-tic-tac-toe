@@ -17,10 +17,10 @@ function newPlayer(name, marker) {
     const player1 = newPlayer("player1", "X");
     const player2 = newPlayer("player2", "O");
 
+    let currentPlayer = player1;
+
     let currentBoard = gameBoard;
     let oldBoard = structuredClone(currentBoard);
-
-    let currentPlayer = player1;
 
     function changeTurns() {
         if (currentPlayer === player1) {
@@ -33,21 +33,21 @@ function newPlayer(name, marker) {
     function checkBoard() {
         for (let col = 0; col < 3; col++) {
             for (let row = 0; row < 3; row++) {
-                if (gameBoard[0][col] === "X") {
+                if (gameBoard[0][col] === currentPlayer.marker) {
                     if (checkVerticalWin(0, col) === true) {
                         console.log("Winner!");
                         break;
                     }
                 };
 
-                if (gameBoard[row][0] === "X") {
+                if (gameBoard[row][0] === currentPlayer.marker) {
                     if (checkHorizontalWin(row, 0) === true) {
                         console.log("Winner!");
                         break;
                     }
                 };
 
-                if (gameBoard[1][1] === "X") {
+                if (gameBoard[1][1] === currentPlayer.marker) {
                     if (checkDiagonalWin() === true) {
                         console.log("Winner!");
                         break;
@@ -57,29 +57,29 @@ function newPlayer(name, marker) {
         };
 
         if (currentBoard != oldBoard) {
-            oldBoard = structuredClone(currentBoard)
+            oldBoard = structuredClone(currentBoard);
             changeTurns();
         };
     }
 
     function checkVerticalWin(row, col) {
-        if (gameBoard[row+1][col] === "X" && gameBoard[row+2][col] === "X") {
+        if (gameBoard[row+1][col] === currentPlayer.marker && gameBoard[row+2][col] === currentPlayer.marker) {
             return true;
         };
     }
 
      function checkHorizontalWin(row, col) {
-        if (gameBoard[row][col+1] === "X" && gameBoard[row][col+2] === "X") {
+        if (gameBoard[row][col+1] === currentPlayer.marker && gameBoard[row][col+2] === currentPlayer.marker) {
             return true;
         };
     }
 
     function checkDiagonalWin() {
-        if (gameBoard[0][0] === "X" && gameBoard[0+2][0+2] === "X") {
+        if (gameBoard[0][0] === currentPlayer.marker && gameBoard[0+2][0+2] === currentPlayer.marker) {
             return true;
         }; 
 
-        if (gameBoard[0][+2] === "X" && gameBoard[0+2][0] === "X") {
+        if (gameBoard[0][+2] === currentPlayer.marker && gameBoard[0+2][0] === currentPlayer.marker) {
             return true;
         };
     }
