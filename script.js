@@ -4,7 +4,7 @@ const gameBoard = (function() {
         [" ", " ", " "],
         [" ", " ", " "],
         [" ", " ", " "]
-    ] 
+    ];
     console.log(board);
     return board;
 })();
@@ -56,6 +56,10 @@ function newPlayer(name, marker) {
             };
         };
 
+        if (!gameBoard.some(row => row.includes(" "))) {
+            console.log("tie!")
+        };
+
         if (currentBoard != oldBoard) {
             oldBoard = structuredClone(currentBoard);
             changeTurns();
@@ -82,5 +86,9 @@ function newPlayer(name, marker) {
         if (gameBoard[0][+2] === currentPlayer.marker && gameBoard[0+2][0] === currentPlayer.marker) {
             return true;
         };
+    }
+
+    function displayTie() {
+        console.log("Tie!")
     }
 })();
