@@ -1,0 +1,13 @@
+.board-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 85vh;
+}
+
+.board {
+    background-color: grey;
+    border: solid black 1px;
+    height: clamp(400px, 80vmin, 600px);
+    aspect-ratio: 1 / 1;
+}

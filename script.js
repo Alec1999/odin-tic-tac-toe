@@ -9,6 +9,10 @@ const gameBoard = (function() {
     return board;
 })();
 
+const displayController = (function() {
+    
+})();
+
 function newPlayer(name, marker) {
     return { name, marker };
 }
@@ -28,7 +32,7 @@ function newPlayer(name, marker) {
         } else {
             currentPlayer = player1;
         };
-    }
+    }    
 
     function checkBoard() {
         for (let col = 0; col < 3; col++) {
