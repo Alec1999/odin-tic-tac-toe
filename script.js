@@ -22,16 +22,16 @@ const gameController = (() => {
     let currentBoard = gameBoard;
     let oldBoard = structuredClone(currentBoard);
 
-    function getCurrentPlayer() {
-        return currentPlayer;
-    }
-
     function changeTurns() {
         if (currentPlayer === player1) {
             currentPlayer = player2;
         } else {
             currentPlayer = player1;
         };
+    }
+
+    function getCurrentPlayer() {
+        return currentPlayer;
     }
 
     function checkBoard() {
@@ -96,18 +96,23 @@ const gameController = (() => {
         console.log("Tie!")
     }
 
-    return { getCurrentPlayer };
+    return { 
+        getCurrentPlayer,
+        changeTurns
+        };
+
 })();
 
 const displayController = (() => {
-    const currentPlayer = gameController.getCurrentPlayer();
-
     document.addEventListener("click", (e) => {
+        const currentPlayer = gameController.getCurrentPlayer();
         let element = e.target
 
         if (element.classList.contains("board-cell")) {
             element.innerText = currentPlayer.marker;
+            gameController.changeTurns();
+            console.log("Current player is " + currentPlayer.name);
         };
     });
-    
+
 })();
