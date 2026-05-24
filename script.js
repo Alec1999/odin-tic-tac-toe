@@ -1,11 +1,10 @@
 // come back later to add modules for changing the board, to make it private.
 const gameBoard = (function() {
     let board = [
-        ["X", "X", "O"],
-        ["O", "X", "X"],
-        ["O", "O", "X"]
+        [" ", " ", " "],
+        [" ", " ", " "],
+        [" ", " ", " "]
     ];
-    console.log(board);
     return board;
 })();
 
@@ -21,6 +20,8 @@ const gameController = (() => {
 
     let currentBoard = gameBoard;
     let oldBoard = structuredClone(currentBoard);
+
+    checkBoard();
 
     function changeTurns() {
         if (currentPlayer === player1) {
@@ -110,9 +111,32 @@ const displayController = (() => {
 
         if (element.classList.contains("board-cell")) {
             element.innerText = currentPlayer.marker;
-            gameController.changeTurns();
             console.log("Current player is " + currentPlayer.name);
+
+            let row = 1;
+            let col = 1;
+
+            if (element.classList.contains("top")) {
+                row = 0;
+            }
+            
+            if (element.classList.contains("bottom")) {
+                row = 2;
+            }
+
+            if (element.classList.contains("left")) {
+                col = 0;
+            }
+
+            if (element.classList.contains("right")) {
+                col = 2;
+            }
+
+            gameBoard[row][col] = currentPlayer.marker
+
+            gameController.changeTurns();
+
+            console.log(gameBoard);
         };
     });
-
 })();
