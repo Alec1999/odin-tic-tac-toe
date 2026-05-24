@@ -9,11 +9,22 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    background-color: rgb(197, 197, 197);
     height: clamp(400px, 80vmin, 600px);
     aspect-ratio: 1 / 1;
 }
 
-.board-cell {
-    border: solid rgb(0, 0, 0) 1px;
+.top {
+    border-bottom: solid rgb(0, 0, 0) 4px;
+}
+
+.bottom {
+    border-top: solid rgb(0, 0, 0) 4px;
+}
+
+.left {
+    border-right: solid rgb(0, 0, 0) 4px;
+}
+
+.right {
+    border-left: solid rgb(0, 0, 0) 4px;
 }

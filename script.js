@@ -1,16 +1,22 @@
 // come back later to add modules for changing the board, to make it private.
 const gameBoard = (function() {
     let board = [
-        [" ", " ", " "],
-        [" ", " ", " "],
-        [" ", " ", " "]
+        ["X", "X", "O"],
+        ["O", "X", "X"],
+        ["O", "O", "X"]
     ];
     console.log(board);
     return board;
 })();
 
 const displayController = (function() {
-    const boardContainer = document.querySelector(".board-container");
+    document.addEventListener("click", (e) => {
+        let element = e.target
+
+        if (element.classList.contains("board-cell")) {
+            element.innerText = "X";
+        }
+    });
 })();
 
 function newPlayer(name, marker) {
