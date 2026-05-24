@@ -1,5 +1,5 @@
 // come back later to add modules for changing the board, to make it private.
-const gameBoard = (function() {
+const gameBoard = (() => {
     let board = [
         [" ", " ", " "],
         [" ", " ", " "],
@@ -21,8 +21,6 @@ const gameController = (() => {
     let currentBoard = gameBoard;
     let oldBoard = structuredClone(currentBoard);
 
-    checkBoard();
-
     function changeTurns() {
         if (currentPlayer === player1) {
             currentPlayer = player2;
@@ -40,21 +38,21 @@ const gameController = (() => {
             for (let row = 0; row < 3; row++) {
                 if (gameBoard[0][col] === currentPlayer.marker) {
                     if (checkVerticalWin(0, col) === true) {
-                        console.log("Winner!");
+                        console.log(currentPlayer.name + " is the winner!");
                         break;
                     }
                 };
 
                 if (gameBoard[row][0] === currentPlayer.marker) {
                     if (checkHorizontalWin(row, 0) === true) {
-                        console.log("Winner!");
+                        console.log(currentPlayer.name + " is the winner!");
                         break;
                     }
                 };
 
                 if (gameBoard[1][1] === currentPlayer.marker) {
                     if (checkDiagonalWin() === true) {
-                        console.log("Winner!");
+                        console.log(currentPlayer.name + " is the winner!");
                         break;
                     };
                 };
@@ -99,7 +97,7 @@ const gameController = (() => {
 
     return { 
         getCurrentPlayer,
-        changeTurns
+        checkBoard
         };
 
 })();
@@ -118,24 +116,20 @@ const displayController = (() => {
 
             if (element.classList.contains("top")) {
                 row = 0;
-            }
-            
-            if (element.classList.contains("bottom")) {
+            } else if (element.classList.contains("bottom")) {
                 row = 2;
-            }
+            };
 
             if (element.classList.contains("left")) {
                 col = 0;
-            }
-
-            if (element.classList.contains("right")) {
+            } else if (element.classList.contains("right")) {
                 col = 2;
-            }
+            };
 
             gameBoard[row][col] = currentPlayer.marker
 
-            gameController.changeTurns();
-
+            gameController.checkBoard();
+            
             console.log(gameBoard);
         };
     });
