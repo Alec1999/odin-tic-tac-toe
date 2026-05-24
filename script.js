@@ -108,7 +108,6 @@ const displayController = (() => {
         let element = e.target
 
         if (element.classList.contains("board-cell")) {
-
             let row = 1;
             let col = 1;
 
@@ -129,8 +128,6 @@ const displayController = (() => {
                 element.innerText = currentPlayer.marker;
 
                 gameController.checkBoard();
-                console.log("Current player is " + currentPlayer.name);
-                console.log(gameBoard);
             };
         };
     });
