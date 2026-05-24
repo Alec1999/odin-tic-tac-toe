@@ -9,21 +9,11 @@ const gameBoard = (function() {
     return board;
 })();
 
-const displayController = (function() {
-    document.addEventListener("click", (e) => {
-        let element = e.target
-
-        if (element.classList.contains("board-cell")) {
-            element.innerText = "X";
-        }
-    });
-})();
-
 function newPlayer(name, marker) {
     return { name, marker };
 }
 
-(function gameController() {
+const gameController = (() => {
     const player1 = newPlayer("player1", "X");
     const player2 = newPlayer("player2", "O");
 
@@ -31,6 +21,10 @@ function newPlayer(name, marker) {
 
     let currentBoard = gameBoard;
     let oldBoard = structuredClone(currentBoard);
+
+    function getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     function changeTurns() {
         if (currentPlayer === player1) {
@@ -101,4 +95,19 @@ function newPlayer(name, marker) {
     function displayTie() {
         console.log("Tie!")
     }
+
+    return { getCurrentPlayer };
+})();
+
+const displayController = (() => {
+    const currentPlayer = gameController.getCurrentPlayer();
+
+    document.addEventListener("click", (e) => {
+        let element = e.target
+
+        if (element.classList.contains("board-cell")) {
+            element.innerText = currentPlayer.marker;
+        };
+    });
+    
 })();
