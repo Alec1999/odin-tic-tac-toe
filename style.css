@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 85vh;
+    height: 75vh;
 }
 
 .board {
@@ -20,6 +20,15 @@
     font-family: Fredoka;
     font-size: clamp(4rem, 10vw, 4.5rem);
     font-weight: bold;
+}
+
+.score-display {
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    gap: 50px;
+    font-weight: bold;
+    font-size: 40px;
 }
 
 .top {

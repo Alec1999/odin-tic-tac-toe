@@ -17,6 +17,9 @@ const gameController = (() => {
     const player2 = newPlayer("player2", "O");
 
     let currentPlayer = player1;
+    let player1Score = 0;
+    let player2Score = 0;
+    let tieScore = 0;
 
     let currentBoard = gameBoard;
     let oldBoard = structuredClone(currentBoard);
@@ -97,7 +100,10 @@ const gameController = (() => {
 
     return { 
         getCurrentPlayer,
-        checkBoard
+        checkBoard,
+        player1Score,
+        player2Score,
+        tieScore
         };
 
 })();
@@ -131,4 +137,17 @@ const displayController = (() => {
             };
         };
     });
+
+    const p1Score = gameController.player1Score;
+    const p2Score = gameController.player2Score;
+    const tieScore = gameController.tieScore;
+
+    const p1ScoreDisplay = document.getElementById("player1-score");
+    const p2ScoreDisplay = document.getElementById("player2-score");
+    const tieScoreDisplay = document.getElementById("tie-score");
+
+    p1ScoreDisplay.textContent = "Player 1: " + p1Score;
+    p2ScoreDisplay.textContent = "Player 2: " + p2Score;
+    tieScoreDisplay.textContent = "Ties: " + tieScore;
+
 })();
