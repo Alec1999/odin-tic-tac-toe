@@ -8,17 +8,19 @@ const gameBoard = (() => {
     return board;
 })();
 
-function newPlayer(name, marker) {
-    return { name, marker };
+function newPlayer(name, marker, score) {
+    return { 
+        name,
+        marker,
+        score
+    };
 }
 
 const gameController = (() => {
-    const player1 = newPlayer("player1", "X");
-    const player2 = newPlayer("player2", "O");
+    const player1 = newPlayer("player1", "X", 0);
+    const player2 = newPlayer("player2", "O", 0);
 
     let currentPlayer = player1;
-    let player1Score = 0;
-    let player2Score = 0;
     let tieScore = 0;
 
     let currentBoard = gameBoard;
@@ -36,27 +38,45 @@ const gameController = (() => {
         return currentPlayer;
     }
 
+    function getCurrentScores() {
+        return {
+            p1Score: player1.score,
+            p2Score: player2.score,
+            tieScore
+        };
+    }
+
     function checkBoard() {
         for (let col = 0; col < 3; col++) {
             for (let row = 0; row < 3; row++) {
                 if (gameBoard[0][col] === currentPlayer.marker) {
                     if (checkVerticalWin(0, col) === true) {
                         console.log(currentPlayer.name + " is the winner!");
-                        break;
+                        currentPlayer.score++;
+                        clearBoard();
+                        clearBoard();
+                        displayController.clearDisplay();
+                        return;
                     }
                 };
 
                 if (gameBoard[row][0] === currentPlayer.marker) {
                     if (checkHorizontalWin(row, 0) === true) {
                         console.log(currentPlayer.name + " is the winner!");
-                        break;
+                        currentPlayer.score++;
+                        clearBoard();
+                        displayController.clearDisplay();
+                        return;
                     }
                 };
 
                 if (gameBoard[1][1] === currentPlayer.marker) {
                     if (checkDiagonalWin() === true) {
                         console.log(currentPlayer.name + " is the winner!");
-                        break;
+                        currentPlayer.score++;
+                        clearBoard();
+                        displayController.clearDisplay();
+                        return;
                     };
                 };
             };
@@ -64,6 +84,7 @@ const gameController = (() => {
 
         if (!gameBoard.some(row => row.includes(" "))) {
             console.log("tie!")
+            tieScore++
         };
 
         if (currentBoard != oldBoard) {
@@ -94,24 +115,38 @@ const gameController = (() => {
         };
     }
 
-    function displayTie() {
-        console.log("Tie!")
+    function clearBoard() {
+        for (let col = 0; col < 3; col++) {
+            for (let row = 0; row < 3; row++) {
+                gameBoard[col][row] = " ";
+            };
+        };
     }
 
     return { 
         getCurrentPlayer,
-        checkBoard,
-        player1Score,
-        player2Score,
-        tieScore
+        getCurrentScores,
+        checkBoard
         };
 
 })();
 
 const displayController = (() => {
+    const cells = document.querySelectorAll(".board-cell");
+
     document.addEventListener("click", (e) => {
+        const currentScores = gameController.getCurrentScores();
+
+        const p1ScoreDisplay = document.getElementById("player1-score");
+        const p2ScoreDisplay = document.getElementById("player2-score");
+        const tieScoreDisplay = document.getElementById("tie-score");
+
         const currentPlayer = gameController.getCurrentPlayer();
         let element = e.target
+
+        p1ScoreDisplay.textContent = "Player 1: " + currentScores.p1Score;
+        p2ScoreDisplay.textContent = "Player 2: " + currentScores.p2Score;
+        tieScoreDisplay.textContent = "Ties: " + currentScores.tieScore;
 
         if (element.classList.contains("board-cell")) {
             let row = 1;
@@ -131,23 +166,18 @@ const displayController = (() => {
 
             if (gameBoard[row][col] == " ") {
                 gameBoard[row][col] = currentPlayer.marker
-                element.innerText = currentPlayer.marker;
+                element.textContent = currentPlayer.marker;
 
                 gameController.checkBoard();
             };
         };
     });
 
-    const p1Score = gameController.player1Score;
-    const p2Score = gameController.player2Score;
-    const tieScore = gameController.tieScore;
+    function clearDisplay() {
+        cells.forEach(cell => {
+            cell.textContent = " "
+        });
+    }
 
-    const p1ScoreDisplay = document.getElementById("player1-score");
-    const p2ScoreDisplay = document.getElementById("player2-score");
-    const tieScoreDisplay = document.getElementById("tie-score");
-
-    p1ScoreDisplay.textContent = "Player 1: " + p1Score;
-    p2ScoreDisplay.textContent = "Player 2: " + p2Score;
-    tieScoreDisplay.textContent = "Ties: " + tieScore;
-
+    return { clearDisplay };
 })();
