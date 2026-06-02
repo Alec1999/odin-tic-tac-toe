@@ -26,6 +26,8 @@ const gameController = (() => {
     let currentBoard = gameBoard;
     let oldBoard = structuredClone(currentBoard);
 
+    let resetBoard = false;
+
     function changeTurns() {
         if (currentPlayer === player1) {
             currentPlayer = player2;
@@ -53,9 +55,7 @@ const gameController = (() => {
                     if (checkVerticalWin(0, col) === true) {
                         console.log(currentPlayer.name + " is the winner!");
                         currentPlayer.score++;
-                        clearBoard();
-                        clearBoard();
-                        displayController.clearDisplay();
+                        resetBoard = true;
                         return;
                     }
                 };
@@ -64,8 +64,7 @@ const gameController = (() => {
                     if (checkHorizontalWin(row, 0) === true) {
                         console.log(currentPlayer.name + " is the winner!");
                         currentPlayer.score++;
-                        clearBoard();
-                        displayController.clearDisplay();
+                        resetBoard = true;
                         return;
                     }
                 };
@@ -74,8 +73,7 @@ const gameController = (() => {
                     if (checkDiagonalWin() === true) {
                         console.log(currentPlayer.name + " is the winner!");
                         currentPlayer.score++;
-                        clearBoard();
-                        displayController.clearDisplay();
+                        resetBoard = true;
                         return;
                     };
                 };
@@ -121,12 +119,20 @@ const gameController = (() => {
                 gameBoard[col][row] = " ";
             };
         };
+
+        resetBoard = false;
+    }
+
+    function getResetBoard() {
+        return resetBoard;
     }
 
     return { 
         getCurrentPlayer,
         getCurrentScores,
-        checkBoard
+        checkBoard, 
+        clearBoard,
+        getResetBoard
         };
 
 })();
@@ -147,6 +153,11 @@ const displayController = (() => {
         p1ScoreDisplay.textContent = "Player 1: " + currentScores.p1Score;
         p2ScoreDisplay.textContent = "Player 2: " + currentScores.p2Score;
         tieScoreDisplay.textContent = "Ties: " + currentScores.tieScore;
+
+        if (gameController.getResetBoard()) {
+            clearDisplay();
+            gameController.clearBoard();
+        }
 
         if (element.classList.contains("board-cell")) {
             let row = 1;
