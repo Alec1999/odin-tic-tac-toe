@@ -55,6 +55,7 @@ const gameController = (() => {
                     if (checkVerticalWin(0, col) === true) {
                         console.log(currentPlayer.name + " is the winner!");
                         currentPlayer.score++;
+                        displayController.displayScores();
                         resetBoard = true;
                         return;
                     }
@@ -64,6 +65,7 @@ const gameController = (() => {
                     if (checkHorizontalWin(row, 0) === true) {
                         console.log(currentPlayer.name + " is the winner!");
                         currentPlayer.score++;
+                        displayController.displayScores();
                         resetBoard = true;
                         return;
                     }
@@ -73,6 +75,7 @@ const gameController = (() => {
                     if (checkDiagonalWin() === true) {
                         console.log(currentPlayer.name + " is the winner!");
                         currentPlayer.score++;
+                        displayController.displayScores();
                         resetBoard = true;
                         return;
                     };
@@ -83,6 +86,8 @@ const gameController = (() => {
         if (!gameBoard.some(row => row.includes(" "))) {
             console.log("tie!")
             tieScore++
+            displayController.displayScores();
+            resetBoard = true;
         };
 
         if (currentBoard != oldBoard) {
@@ -141,18 +146,9 @@ const displayController = (() => {
     const cells = document.querySelectorAll(".board-cell");
 
     document.addEventListener("click", (e) => {
-        const currentScores = gameController.getCurrentScores();
-
-        const p1ScoreDisplay = document.getElementById("player1-score");
-        const p2ScoreDisplay = document.getElementById("player2-score");
-        const tieScoreDisplay = document.getElementById("tie-score");
-
-        const currentPlayer = gameController.getCurrentPlayer();
+        
         let element = e.target
-
-        p1ScoreDisplay.textContent = "Player 1: " + currentScores.p1Score;
-        p2ScoreDisplay.textContent = "Player 2: " + currentScores.p2Score;
-        tieScoreDisplay.textContent = "Ties: " + currentScores.tieScore;
+        const currentPlayer = gameController.getCurrentPlayer();
 
         if (gameController.getResetBoard()) {
             clearDisplay();
@@ -184,11 +180,26 @@ const displayController = (() => {
         };
     });
 
+    function displayScores() {
+        const currentScores = gameController.getCurrentScores();
+
+        const p1ScoreDisplay = document.getElementById("player1-score");
+        const p2ScoreDisplay = document.getElementById("player2-score");
+        const tieScoreDisplay = document.getElementById("tie-score");
+
+        p1ScoreDisplay.textContent = "Player 1: " + currentScores.p1Score;
+        p2ScoreDisplay.textContent = "Player 2: " + currentScores.p2Score;
+        tieScoreDisplay.textContent = "Ties: " + currentScores.tieScore;
+    }
+
     function clearDisplay() {
         cells.forEach(cell => {
             cell.textContent = " "
         });
     }
 
-    return { clearDisplay };
+    return { 
+        clearDisplay,
+        displayScores
+    };
 })();
