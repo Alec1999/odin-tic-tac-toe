@@ -85,7 +85,7 @@ const gameController = (() => {
 
         if (!gameBoard.some(row => row.includes(" "))) {
             console.log("tie!")
-            tieScore++
+            tieScore++;
             displayController.displayScores();
             resetBoard = true;
         };
@@ -147,15 +147,13 @@ const displayController = (() => {
 
     document.addEventListener("click", (e) => {
         
-        let element = e.target
+        let element = e.target;
         const currentPlayer = gameController.getCurrentPlayer();
 
         if (gameController.getResetBoard()) {
             clearDisplay();
             gameController.clearBoard();
-        }
-
-        if (element.classList.contains("board-cell")) {
+        } else if (element.classList.contains("board-cell")) {
             let row = 1;
             let col = 1;
 
@@ -172,12 +170,13 @@ const displayController = (() => {
             };
 
             if (gameBoard[row][col] == " ") {
-                gameBoard[row][col] = currentPlayer.marker
+                gameBoard[row][col] = currentPlayer.marker;
                 element.textContent = currentPlayer.marker;
 
                 gameController.checkBoard();
             };
         };
+
     });
 
     function displayScores() {
@@ -194,7 +193,7 @@ const displayController = (() => {
 
     function clearDisplay() {
         cells.forEach(cell => {
-            cell.textContent = " "
+            cell.textContent = " ";
         });
     }
 
@@ -202,4 +201,5 @@ const displayController = (() => {
         clearDisplay,
         displayScores
     };
+
 })();
