@@ -53,30 +53,21 @@ const gameController = (() => {
             for (let row = 0; row < 3; row++) {
                 if (gameBoard[0][col] === currentPlayer.marker) {
                     if (checkVerticalWin(0, col) === true) {
-                        console.log(currentPlayer.name + " is the winner!");
-                        currentPlayer.score++;
-                        displayController.displayScores();
-                        resetBoard = true;
+                        winUpdate();
                         return;
                     }
                 };
 
                 if (gameBoard[row][0] === currentPlayer.marker) {
                     if (checkHorizontalWin(row, 0) === true) {
-                        console.log(currentPlayer.name + " is the winner!");
-                        currentPlayer.score++;
-                        displayController.displayScores();
-                        resetBoard = true;
+                        winUpdate();
                         return;
                     }
                 };
 
                 if (gameBoard[1][1] === currentPlayer.marker) {
                     if (checkDiagonalWin() === true) {
-                        console.log(currentPlayer.name + " is the winner!");
-                        currentPlayer.score++;
-                        displayController.displayScores();
-                        resetBoard = true;
+                        winUpdate();
                         return;
                     };
                 };
@@ -94,6 +85,12 @@ const gameController = (() => {
             oldBoard = structuredClone(currentBoard);
             changeTurns();
         };
+    }
+
+    function winUpdate() {
+        currentPlayer.score++;
+        displayController.displayScores();
+        resetBoard = true;
     }
 
     function checkVerticalWin(row, col) {
