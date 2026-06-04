@@ -128,6 +128,15 @@ const gameController = (() => {
         resetBoard = false;
     }
 
+    function resetPlayers() {
+        currentPlayer = player1;
+    }
+
+    function resetGame() {
+        clearBoard();
+        resetPlayers();
+    }
+
     function getResetBoard() {
         return resetBoard;
     }
@@ -136,7 +145,7 @@ const gameController = (() => {
         getCurrentPlayer,
         getCurrentScores,
         checkBoard, 
-        clearBoard,
+        resetGame,
         getResetBoard
         };
 
@@ -152,7 +161,7 @@ const displayController = (() => {
 
         if (gameController.getResetBoard()) {
             clearDisplay();
-            gameController.clearBoard();
+            gameController.resetGame();
         } else if (element.classList.contains("board-cell")) {
             let row = 1;
             let col = 1;
